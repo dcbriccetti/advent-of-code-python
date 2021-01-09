@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Set, Any
+
 
 def data(day: int, parser=str, sep='\n') -> list:
     "Split the day's input file into sections separated by `sep`, and apply `parser` to each."
@@ -38,10 +39,16 @@ def day6_1(groups):
                for group in groups)
 
 
-def day6_2(groups):
+def day6_2(groups: List[Group]):
     "For each group, compute the number of letters that EVERYONE got. Sum them."
-    return sum(len(set.intersection(*map(set, group)))
-               for group in groups)
+    sum_num_all_got = 0
+    for group in groups:
+        group_sets: list[set] = list(map(set, group))
+        intersection: set[Any] = set.intersection(*group_sets)
+        num_all_got: int = len(intersection)
+        sum_num_all_got += num_all_got
+        print(group, group_sets, intersection, num_all_got)
+    print(sum_num_all_got)
 
 
-do(6, 11)
+do(6, 11, 6)
